@@ -2,6 +2,7 @@ from pprint import pprint
 import requests
 import csv
 import re
+from collections import OrderedDict
 
 #CONSTANTS
 CSV_RAW = 'https://github.com/netology-code/py-homeworks-advanced/raw/master/5.Regexp/phonebook_raw.csv'
@@ -47,6 +48,7 @@ class Phonebook:
     # print('***', result)
 
     common_list = [''] * len(self.contacts_list)
+    doubles_list = [[]] * len(self.contacts_list)
     #print(temp_list)
     for index in range(len(self.contacts_list)):
       for element in self.contacts_list[index]:
@@ -76,12 +78,21 @@ class Phonebook:
 
       # 2. telephone correction
       # tel RegExp: (\+7|8)\s*\(*\d+\)*(\s|-)*\d+\-*\d+\-*\d+(\s|\()*\w+.\s*\d+
-      # tel_regex = re.compile(r'(\+7|8)\s*\(*\d+\)*(\s|-)*\d+\-*\d+\-*\d+(\s|\()*\w+.\s*\d+')
-      # tel_result = tel_regex.sub(r'+7 (\2) \3-\5-\7', self.contacts_list[contact][5])
-      # print('***', tel_result)
-      # self.contacts_list[contact][5] = tel_result
+      tel_regex = re.compile(r'(\+7|8)\s*\(*\d+\)*(\s|-)*\d+\-*\d+\-*\d+(\s|\()*\w+.\s*\d+')
+      tel_result = tel_regex.sub(r'+7 (\2) \3-\5-\7', self.contacts_list[contact][5])
+      print('***', tel_result)
+      self.contacts_list[contact][5] = tel_result
 
       # 3. doubles correction
+      # print('self.contacts_list[contact][0]: ', self.contacts_list[contact][0])
+      # lastname_dic = OrderedDict()
+      # lastname_dic[self.contacts_list[contact][0]] = 1
+      # print('+++', type(lastname_dic), len(lastname_dic), lastname_dic)
+
+
+      #print('+++', doubles_list)
+
+
 
 
 
