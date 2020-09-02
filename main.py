@@ -15,6 +15,7 @@ class Phonebook:
 
   def __init__(self, url=CSV_RAW):
     self.contacts_list = []
+    self.contacts_list_edited = []
     response = requests.get(url)
     print('Исходные данные будем брать отсюда:', url)
     # сохраняю локальную копию файла
@@ -32,15 +33,50 @@ class Phonebook:
 
   def Reg_exp(self):
       # TODO 1: выполните пункты 1-3 ДЗ
-  #   1. поместить Фамилию, Имя и Отчество человека в поля lastname, firstname и surname соответственно. В записной книжке изначально может быть Ф + ИО, ФИО, а может быть сразу правильно: Ф+И+О;
   #   2. привести все телефоны в формат +7(999)999-99-99. Если есть добавочный номер, формат будет такой: +7(999)999-99-99 доб.9999;
   #   3. объединить все дублирующиеся записи о человеке в одну.
     print('self.contacts_list: ', self.contacts_list)
-    print('self.contacts_list: ', self.contacts_list[1])
+    #print('self.contacts_list[1]: ', self.contacts_list[1])
+
+    #find and join doubles
+    for index in range(len(self.contacts_list)):
+      for element in self.contacts_list[index]:
+        pass
+
     pattern1 = '\w+'
-    result = re.findall(pattern1, self.contacts_list[1][0])
-    # print('+++', self.contacts_list[1][0])
-    print('***', result)
+    # result = re.findall(pattern1, self.contacts_list[1][0])
+    # print('***', result)
+
+    common_list = [''] * len(self.contacts_list)
+    #print(temp_list)
+    for index in range(len(self.contacts_list)):
+      for element in self.contacts_list[index]:
+        #print(type(element), element)
+        #print('index: ', index)
+        #print(len(temp_list))
+        common_list[index] += f'{element} '
+    #print('***', common_list )
+    print()
+
+    #1. names correct placement
+    for contact in range(1, len(self.contacts_list)):
+      splitted_names = '[А-ЯЁ][а-яё]+'
+      result = re.findall(splitted_names, common_list[contact])
+      #print('result: ', len(result), result)
+      for names in range(3):
+        #print(result[index])
+        try:
+          self.contacts_list[contact][0] = result[0]
+          self.contacts_list[contact][1] = result[1]
+          self.contacts_list[contact][2] = result[2]
+        except:
+          IndexError
+      print('self.contacts_list[contact]: ', self.contacts_list[contact])
+
+      # 2. telephone correction
+
+
+
 
 
 
