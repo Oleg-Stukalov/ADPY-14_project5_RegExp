@@ -76,11 +76,12 @@ class Phonebook:
 
       # 2. telephone correction
       # tel RegExp: (\+7|8)\s*\(*\d+\)*(\s|-)*\d+\-*\d+\-*\d+(\s|\()*\w+.\s*\d+
-      tel_regex = re.compile(r'(\+7|8)\s*\(*\d+\)*(\s|-)*\d+\-*\d+\-*\d+(\s|\()*\w+.\s*\d+')
-      tel_result = tel_regex.sub(r'+7 (\2) \3-\5-\7', self.contacts_list[contact][5])
-      print('***', tel_result)
-      self.contacts_list[contact][5] = tel_result
+      # tel_regex = re.compile(r'(\+7|8)\s*\(*\d+\)*(\s|-)*\d+\-*\d+\-*\d+(\s|\()*\w+.\s*\d+')
+      # tel_result = tel_regex.sub(r'+7 (\2) \3-\5-\7', self.contacts_list[contact][5])
+      # print('***', tel_result)
+      # self.contacts_list[contact][5] = tel_result
 
+      # 3. doubles correction
 
 
 
