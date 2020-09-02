@@ -33,7 +33,6 @@ class Phonebook:
 
   def Reg_exp(self):
       # TODO 1: выполните пункты 1-3 ДЗ
-  #   2. привести все телефоны в формат +7(999)999-99-99. Если есть добавочный номер, формат будет такой: +7(999)999-99-99 доб.9999;
   #   3. объединить все дублирующиеся записи о человеке в одну.
     print('self.contacts_list: ', self.contacts_list)
     #print('self.contacts_list[1]: ', self.contacts_list[1])
@@ -59,21 +58,29 @@ class Phonebook:
     print()
 
     #1. names correct placement
+    # name RegExp: [А-ЯЁ][а-яё]+
     for contact in range(1, len(self.contacts_list)):
       splitted_names = '[А-ЯЁ][а-яё]+'
-      result = re.findall(splitted_names, common_list[contact])
+      name_result = re.findall(splitted_names, common_list[contact])
       #print('result: ', len(result), result)
       for names in range(3):
         #print(result[index])
         try:
-          self.contacts_list[contact][0] = result[0]
-          self.contacts_list[contact][1] = result[1]
-          self.contacts_list[contact][2] = result[2]
+          self.contacts_list[contact][0] = name_result[0]
+          self.contacts_list[contact][1] = name_result[1]
+          self.contacts_list[contact][2] = name_result[2]
         except:
           IndexError
+
       print('self.contacts_list[contact]: ', self.contacts_list[contact])
 
       # 2. telephone correction
+      # tel RegExp: (\+7|8)\s*\(*\d+\)*(\s|-)*\d+\-*\d+\-*\d+(\s|\()*\w+.\s*\d+
+      tel_regex = re.compile(r'(\+7|8)\s*\(*\d+\)*(\s|-)*\d+\-*\d+\-*\d+(\s|\()*\w+.\s*\d+')
+      tel_result = tel_regex.sub(r'+7 (\2) \3-\5-\7', self.contacts_list[contact][5])
+      print('***', tel_result)
+      self.contacts_list[contact][5] = tel_result
+
 
 
 
