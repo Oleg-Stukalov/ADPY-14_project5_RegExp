@@ -6,7 +6,7 @@ from collections import OrderedDict
 
 #CONSTANTS
 CSV_RAW = 'https://github.com/netology-code/py-homeworks-advanced/raw/master/5.Regexp/phonebook_raw.csv'
-
+NL = '\n'
 
 class Phonebook:
   """
@@ -76,14 +76,45 @@ class Phonebook:
 
       print('self.contacts_list[contact]: ', self.contacts_list[contact])
 
-      # 2. telephone correction
-      # tel RegExp: (\+7|8)\s*\(*\d+\)*(\s|-)*\d+\-*\d+\-*\d+(\s|\()*\w+.\s*\d+
-      tel_regex = re.compile(r'(\+7|8)\s*\(*\d+\)*(\s|-)*\d+\-*\d+\-*\d+(\s|\()*\w+.\s*\d+')
-      tel_result = tel_regex.sub(r'+7 (\2) \3-\5-\7', self.contacts_list[contact][5])
-      print('***', tel_result)
+      # 2. telephone correction +7(999)999-99-99 доб.9999
+      # tel RegExp: (\+7|8)\s*\(*(\d+)\)*(\s|-)*(\d+)\-*(\d+)\-*(\d+)(\s\(*доб\.\s\d+\)*)?
+      tel_regex = re.compile(r'(\+7|8)\s*\(*(\d+)\)*(\s|-)*(\d+)\-*(\d+)\-*(\d+)(\s\(*доб\.\s\d+\)*)?')
+      tel_result = tel_regex.sub(r'+7(\2)\4-\5-\6\7', self.contacts_list[contact][5])
+      #print('***', tel_result)
       self.contacts_list[contact][5] = tel_result
 
       # 3. doubles correction
+      for contact in range(1, len(self.contacts_list)):
+        for contact2 in range(contact+1, len(self.contacts_list)):
+          if self.contacts_list[contact][0] == self.contacts_list[contact2][0] and self.contacts_list[contact][1] == self.contacts_list[contact2][1]:
+            # print(self.contacts_list[contact][0], self.contacts_list[contact2][0])
+            # print(self.contacts_list[contact][1], self.contacts_list[contact2][1])
+            print(f'Внимание! Найдены дубли:{NL} {self.contacts_list[contact]} и {NL} {self.contacts_list[contact2]} {NL}Ждите окончания процесса спаривания!{NL}')
+            for element in range(len(self.contacts_list[contact])):
+              if len(self.contacts_list[contact][element]) <= len(self.contacts_list[contact2][element]):
+                self.contacts_list[contact][element] = self.contacts_list[contact2][element]
+                self.contacts_list[contact2][element] = ''
+                self.contacts_list[contact2][0] = ''
+                self.contacts_list[contact2][1] = ''
+            print('Пожалуйста, проверьте корректность результатат спаривания:', self.contacts_list[contact], NL)
+
+      for contact in range(len(self.contacts_list)):
+        print('----------', len(self.contacts_list[contact]), self.contacts_list[contact])
+        if self.contacts_list[contact][0] == '':
+          #print('!!!!!!!!!!!!!!!!!', self.contacts_list[contact][0])
+          try:
+            self.contacts_list.pop(contact)
+          except:
+            IndexError
+
+
+      for contact in range(len(self.contacts_list)):
+        print('*****', len(self.contacts_list[contact]), self.contacts_list[contact])
+
+
+
+
+
       # print('self.contacts_list[contact][0]: ', self.contacts_list[contact][0])
       # lastname_dic = OrderedDict()
       # lastname_dic[self.contacts_list[contact][0]] = 1
