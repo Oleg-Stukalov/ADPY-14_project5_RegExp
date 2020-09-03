@@ -64,8 +64,8 @@ class Phonebook:
 
       # 2. telephone correction +7(999)999-99-99 доб.9999
       # tel RegExp: (\+7|8)\s*\(*(\d+)\)*(\s|-)*(\d+)\-*(\d+)\-*(\d+)(\s\(*доб\.\s\d+\)*)?
-      tel_regex = re.compile(r'(\+7|8)\s*\(?(\d+)\)?(\s|-)*(\d+)\-*(\d+)\-*(\d+)\s*\(?(\доб.)?\s*(\d+)\)?')
-      tel_result = tel_regex.sub(r'+7(\2)\4-\5-\6 доб.\8', self.contacts_list[contact][5])
+      tel_regex = re.compile(r'(\+7|8)\s*\(?(\d{3})\)?(\s|-?)*(\d{3})\-*(\d{2})\-*(\d{2})(\s*\(?(\доб\.)?\s*(\d+)\)?)?')
+      tel_result = tel_regex.sub(r'+7(\2)\4-\5-\6 \8\9', self.contacts_list[contact][5])
       #print('***', tel_result)
       self.contacts_list[contact][5] = tel_result
 
