@@ -33,23 +33,9 @@ class Phonebook:
     #pprint( self.contacts_list)
 
   def Reg_exp(self):
-      # TODO 1: выполните пункты 1-3 ДЗ
-  #   3. объединить все дублирующиеся записи о человеке в одну.
-    print('self.contacts_list: ', self.contacts_list)
-    #print('self.contacts_list[1]: ', self.contacts_list[1])
-
-    #find and join doubles
-    for index in range(len(self.contacts_list)):
-      for element in self.contacts_list[index]:
-        pass
-
-    pattern1 = '\w+'
-    # result = re.findall(pattern1, self.contacts_list[1][0])
-    # print('***', result)
 
     common_list = [''] * len(self.contacts_list)
     doubles_list = [[]] * len(self.contacts_list)
-    #print(temp_list)
     for index in range(len(self.contacts_list)):
       for element in self.contacts_list[index]:
         #print(type(element), element)
@@ -74,7 +60,7 @@ class Phonebook:
         except:
           IndexError
 
-      print('self.contacts_list[contact]: ', self.contacts_list[contact])
+      #print('self.contacts_list[contact]: ', self.contacts_list[contact])
 
       # 2. telephone correction +7(999)999-99-99 доб.9999
       # tel RegExp: (\+7|8)\s*\(*(\d+)\)*(\s|-)*(\d+)\-*(\d+)\-*(\d+)(\s\(*доб\.\s\d+\)*)?
@@ -96,45 +82,26 @@ class Phonebook:
                 self.contacts_list[contact2][element] = ''
                 self.contacts_list[contact2][0] = ''
                 self.contacts_list[contact2][1] = ''
-            print('Пожалуйста, проверьте корректность результатат спаривания:', self.contacts_list[contact], NL)
+            print('Пожалуйста, проверьте корректность результатов спаривания:', NL, self.contacts_list[contact], NL)
 
+      double_indexes = [] #номера строк для удаления
       for contact in range(len(self.contacts_list)):
-        print('----------', len(self.contacts_list[contact]), self.contacts_list[contact])
         if self.contacts_list[contact][0] == '':
-          #print('!!!!!!!!!!!!!!!!!', self.contacts_list[contact][0])
-          try:
-            self.contacts_list.pop(contact)
-          except:
-            IndexError
+          double_indexes.append(contact)
+
+    iter_ratio = 0 #коэф учитывающий уменьшение длины списка
+    for index in double_indexes:
+      self.contacts_list.pop(index - iter_ratio)
+      iter_ratio +=1
 
 
-      for contact in range(len(self.contacts_list)):
-        print('*****', len(self.contacts_list[contact]), self.contacts_list[contact])
+    for contact in range(len(self.contacts_list)):
+      print('*****', len(self.contacts_list[contact]), self.contacts_list[contact])
 
 
-
-
-
-      # print('self.contacts_list[contact][0]: ', self.contacts_list[contact][0])
-      # lastname_dic = OrderedDict()
-      # lastname_dic[self.contacts_list[contact][0]] = 1
-      # print('+++', type(lastname_dic), len(lastname_dic), lastname_dic)
-
-
-      #print('+++', doubles_list)
-
-
-
-
-
-
-
-
-
-
-  # TODO 2: сохраните получившиеся данные в другой файл
-  # код для записи файла в формате CSV
-  # with open("phonebook.csv", "w") as f:
-  #   datawriter = csv.writer(f, delimiter=',')
-  #   # Вместо contacts_list подставьте свой список
-  #   datawriter.writerows(contacts_list)
+    # TODO 2: сохраните получившиеся данные в другой файл
+    # код для записи файла в формате CSV
+    with open("phonebook.csv", "w", encoding='utf-8') as f:
+      datawriter = csv.writer(f, delimiter=',')
+      datawriter.writerows(self.contacts_list)
+    print('Обработанная телефонная книга успешно сохранена в файл: phonebook.csv')
