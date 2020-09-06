@@ -101,7 +101,7 @@ class Phonebook:
 
     # TODO 2: сохраните получившиеся данные в другой файл
     # код для записи файла в формате CSV
-    with open("phonebook.csv", "w", encoding='utf-8') as f:
+    with open("phonebook.csv", "w", encoding='utf-8', newline='') as f:
       datawriter = csv.writer(f, delimiter=',')
       datawriter.writerows(self.contacts_list)
     print('Обработанная телефонная книга успешно сохранена в файл: phonebook.csv')
